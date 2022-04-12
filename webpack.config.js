@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
 const isDevelopment = process.env.NODE_ENV !== "production";
 
@@ -18,19 +19,28 @@ module.exports = {
     static: {
       directory: path.resolve(__dirname, "public"), // define o novo build do webpack definindo o conteudo estatico da aplicação
     },
+    hot: true
   },
   plugins: [
+    isDevelopment && new ReactRefreshWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "public", "index.html"), // define o arquivo de template
     }), // define o plugin para gerar o arquivo html
-  ],
+  ].filter(Boolean), // filtra os plugins para remover os falsy
   module: {
     // como a aplicação vai se comportar quando importar algum tipo de arquivo
     rules: [
       {
         test: /\.jsx$/, // define o tipo de arquivo Javascript
         exclude: /node_modules/, // define os arquivos que não devem ser convertidos
-        use: "babel-loader", // define o loader que vai ser usado para converter o arquivo
+        use: {
+          loader: "babel-loader", // define o loader que vai ser usado para converter o arquivo
+          options: {
+            plugins: [
+              isDevelopment && require.resolve("react-refresh/babel"),
+            ].filter(Boolean)
+          }
+        }, 
       },
       {
         test: /\.scss$/,
