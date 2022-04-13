@@ -3,9 +3,9 @@ import React from "react";
 export function RepositoryItem(props) {
   return (
     <li>
-      <strong>{props.repository}</strong>
-      <p>forms in React</p>
-      <a>Acessar repositório</a>
+      <strong>{props.repository.name}</strong>
+      <p>{props.repository.description}</p>
+      <a href={props.repository.html_url}>Acessar repositório</a>
     </li>
   );
 }
