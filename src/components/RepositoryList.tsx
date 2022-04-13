@@ -1,8 +1,14 @@
 import { useState, useEffect } from "react";
 import { RepositoryItem } from "./RepositoryItem";
 
+interface IRepository {
+  name: string;
+  description: string;
+  html_url: string;
+}
+
 export function RepositoryList() {
-  const [list, setList] = useState([]);
+  const [list, setList] = useState<IRepository[]>([]);
 
   useEffect(() => {
     fetch("https://api.github.com/users/linferreira/repos")

@@ -1,6 +1,12 @@
-import React from "react";
+interface IRepositoryItemProps {
+  repository: {
+    name: string;
+    description: string;
+    html_url: string;
+  };
+}
 
-export function RepositoryItem(props) {
+export function RepositoryItem(props: IRepositoryItemProps) {
   return (
     <li>
       <strong>{props.repository.name}</strong>
